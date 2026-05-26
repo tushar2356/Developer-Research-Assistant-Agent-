@@ -8,7 +8,7 @@ from src.prompts import DeveloperToolsPrompts
 class Workflow:
     def __init__(self):
         self.firecrawl = FirecrawlService()
-        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.1)
+        self.llm = ChatOpenAI(model="gemini-1.5-flash", temperature=0.1)
         self.prompts = DeveloperToolsPrompts()
         self.workflow = self._build_workflow()
 
