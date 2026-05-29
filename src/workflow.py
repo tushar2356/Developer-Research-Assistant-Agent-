@@ -36,7 +36,7 @@ class Workflow:
         search_results = self.firecrawl.search_companies(article_query, num_results=3)
 
         all_content = ""
-        for result in search_results.data:
+        for result in search_results.web:
             url = result.get("url", "")
             scraped = self.firecrawl.scrape_company_pages(url)
             if scraped:
@@ -90,9 +90,10 @@ class Workflow:
         if not extracted_tools:
             print("⚠️ No extracted tools found, falling back to direct search")
             search_results = self.firecrawl.search_companies(state.query, num_results=4)
+
             tool_names = [
-                result.get("metadata", {}).get("title", "Unknown")
-                for result in search_results.data
+                result.get("title", "Unknown")
+                for result in search_results.web
             ]
         else:
             tool_names = extracted_tools[:4]
@@ -103,8 +104,8 @@ class Workflow:
         for tool_name in tool_names:
             tool_search_results = self.firecrawl.search_companies(tool_name + " official site", num_results=1)
 
-            if tool_search_results and tool_search_results.data:
-                result = tool_search_results.data[0]
+            if tool_search_results and tool_search_results.web:
+                result = tool_search_results.web[0]
                 url = result.get("url", "")
 
                 company = CompanyInfo(
